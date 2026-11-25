@@ -9,11 +9,6 @@
  * columns form an invertible Vandermonde matrix as long as m < P.
  * Perfect codes are cyclic codes with generator polynomial g(x); decoding is
  * syndrome (remainder mod g) lookup over all error patterns of weight <= t.
- *
- * Build:  gcc -O2 -Wall -o ramp_sss ramp_sss.c -lm
- * Run:    ./ramp_sss          (correctness tests, incl. tampering experiments)
- *         ./ramp_sss bench    (timing benchmarks)
- *         ./ramp_sss latex    (timing benchmarks as LaTeX table rows)
  */
 #define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
