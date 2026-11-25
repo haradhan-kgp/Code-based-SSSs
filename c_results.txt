@@ -65,8 +65,7 @@ III      Golay[23,12],t=3               0.6             <0.1   5 bits
   Golay subsets checked).
 - Perfectness: all four binary codes (Hamming [7,4], [31,26], [127,120] and
   Golay [23,12]) passed the run-time perfect-code check.
-- Golay secret space: 4094 of 4096 codewords, eta = 0.9995
-  (the earlier value 3082 / 0.752 in the draft was incorrect).
+- Golay secret space: 4094 of 4096 codewords, eta = 0.9995.
 - Information rates: Scheme I rho = k/(n-1): 1.143 (n=8,t=2), 2.000
   (n=10,t=3), 2.714 (n=8,t=4). Scheme IV (n=8,t=4): 0.571 < 1.
   Scheme II rho = t. Scheme III rho = k/log2(m): 1.42 to 17.17.
