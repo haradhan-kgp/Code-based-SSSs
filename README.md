@@ -1,8 +1,7 @@
 # Code-Based Ramp Secret Sharing — C reference implementation
 
-Reference implementation accompanying the paper
-**"Code-Based Ramp Secret Sharing: Constructions from MDS and Perfect Codes"**
-(S. Bhowmick, D. K. Dalai, H. Ghosh).
+
+
 
 | Scheme | Description | Code used |
 |---|---|---|
@@ -18,11 +17,8 @@ Requires only a C compiler (gcc/clang) and the math library.
 ```bash
 make            # or: gcc -O2 -Wall -o ramp_sss ramp_sss.c -lm
 ./ramp_sss          # correctness tests + Tompa–Woll tampering experiment
-./ramp_sss bench    # timing benchmarks
-./ramp_sss latex    # timing benchmarks as LaTeX table rows
 ```
 
-`make test`, `make bench` and `make latex` do the same.
 
 ## What the tests check
 
@@ -37,19 +33,7 @@ Expected last line of `./ramp_sss`: `ALL TESTS PASSED`. Secrets and helper vecto
 * This is a research prototype. It uses `rand()` and a small fixed prime field and is **not** hardened (no constant-time arithmetic, no secure randomness). Do not use it to protect real secrets.
 * Scheme IV has information rate k/(n-1) with k <= C(t,2); this exceeds 1 only when C(t,2) > n-1 (see Remark in the paper).
 
-## Files
 
-* `ramp_sss.c` – the whole implementation (single file)
-* `Makefile` – build helpers
-* `LICENSE` – MIT
 
-## Citation
 
-```bibtex
-@misc{bhowmick2026rampsss,
-  author = {Bhowmick, Sanjit and Dalai, Deepak Kumar and Ghosh, Haradhan},
-  title  = {Code-Based Ramp Secret Sharing: Constructions from {MDS} and Perfect Codes},
-  year   = {2026},
-  note   = {Reference implementation: https://github.com/YOUR-USERNAME/code-based-ramp-sss}
-}
 ```
