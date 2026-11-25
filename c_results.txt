@@ -1,0 +1,78 @@
+C IMPLEMENTATION RESULTS
+Code-Based Ramp Secret Sharing (Schemes I, II, III, IV)
+Platform: WSL, gcc -O2 (results from the authors' machine)
+
+=====================================================================
+1. CORRECTNESS TESTS  (./ramp_sss)
+=====================================================================
+[Scheme I]   n=8 t=2  [m=28,k=8] MDS, N_{t-1}=7 N_t=13, rho=1.143
+    2 participants (13 coords)   -> recovery OK
+    1 participants (7 coords<k) -> cannot recover (expected)
+[Scheme I]   n=10 t=3  [m=45,k=18] MDS, N_{t-1}=17 N_t=24, rho=2.000
+    3 participants (24 coords)   -> recovery OK
+    2 participants (17 coords<k) -> cannot recover (expected)
+[Scheme II]  n=10 t=4 l=5  secret = 4x5 matrix, rho=t=4
+    4 participants -> recovery OK
+[Scheme III] Hamming [7,4,3] t=1 -> (2,3)-threshold, perfect=yes, rho=k/log2(m)=1.42
+    |secret space| = 14 of 16 codewords (eta = 0.8750)
+    all 8 participant subsets behave as (2,3)-threshold: OK
+[Scheme III] Hamming [31,26,3] t=1 -> (2,3)-threshold, perfect=yes, rho=k/log2(m)=5.25
+    all 8 participant subsets behave as (2,3)-threshold: OK
+[Scheme III] Hamming [127,120,3] t=1 -> (2,3)-threshold, perfect=yes, rho=k/log2(m)=17.17
+    all 8 participant subsets behave as (2,3)-threshold: OK
+[Scheme III] Golay [23,12,7] t=3 -> (4,7)-threshold, perfect=yes, rho=k/log2(m)=2.65
+    |secret space| = 4094 of 4096 codewords (eta = 0.9995)
+    all 128 participant subsets behave as (4,7)-threshold: OK
+
+--- Tompa-Woll tampering experiment (coalition of t participants) ---
+[Scheme I ]  n=8 t=4  [m=28,k=19], rho=2.714
+    3 participants -> cannot recover (expected)
+    honest coalition                   -> secret recovered correctly
+    P_0 tampers edge to OUTSIDER P_t   -> WRONG SECRET ACCEPTED (undetected)
+    P_0 tampers edge to INSIDER P_1    -> tampering DETECTED
+[Scheme IV]  n=8 t=4  [m=28,k=4], rho=0.571
+    3 participants -> cannot recover (expected)
+    honest coalition                   -> secret recovered correctly
+    P_0 tampers edge to OUTSIDER P_t   -> secret recovered correctly
+    P_0 tampers edge to INSIDER P_1    -> tampering DETECTED
+
+ALL TESTS PASSED
+
+=====================================================================
+2. TIMING BENCHMARKS  (./ramp_sss bench)
+   Average time per operation, microseconds (us)
+=====================================================================
+Scheme   Parameters              Share gen.   Reconstruction   Share size
+-----------------------------------------------------------------------------
+I / IV   n=10,t=3,k=18                  3.1             12.1   9 symbols
+I / IV   n=20,t=5,k=71                 42.7            502.0   19 symbols
+I / IV   n=30,t=8,k=183               262.6           8204.2   29 symbols
+I / IV   n=40,t=10,k=316              867.9          40874.0   39 symbols
+II       n=10,t=4,l=16                  1.9              1.2   16 symbols
+II       n=30,t=10,l=64                47.9             20.2   64 symbols
+II       n=60,t=20,l=64               222.5            111.6   64 symbols
+II       n=120,t=40,l=128            1986.7            951.8   128 symbols
+III      Hamming[7,4],t=1               0.3             <0.1   3 bits
+III      Hamming[31,26],t=1             0.4              0.1   5 bits
+III      Hamming[127,120],t=1           1.0              0.2   7 bits
+III      Golay[23,12],t=3               0.6             <0.1   5 bits
+
+=====================================================================
+3. SUMMARY OF FINDINGS
+=====================================================================
+- Thresholds: in every scheme, authorized sets recover the secret and
+  unauthorized sets cannot (Scheme III: all 8 Hamming subsets and all 128
+  Golay subsets checked).
+- Perfectness: all four binary codes (Hamming [7,4], [31,26], [127,120] and
+  Golay [23,12]) passed the run-time perfect-code check.
+- Golay secret space: 4094 of 4096 codewords, eta = 0.9995
+  (the earlier value 3082 / 0.752 in the draft was incorrect).
+- Information rates: Scheme I rho = k/(n-1): 1.143 (n=8,t=2), 2.000
+  (n=10,t=3), 2.714 (n=8,t=4). Scheme IV (n=8,t=4): 0.571 < 1.
+  Scheme II rho = t. Scheme III rho = k/log2(m): 1.42 to 17.17.
+- Tampering: Scheme I accepts a wrong secret when the tampered edge goes to
+  a non-member of the coalition; Scheme IV is unaffected. A tampered edge
+  between two coalition members is detected in both schemes.
+- Timing: Scheme I/IV reconstruction grows ~5.0x from k=183 to k=316
+  (cubic prediction: 5.1x). Scheme II is dominated by share generation.
+  Scheme III is the cheapest (table-lookup decoding).
