@@ -31,7 +31,7 @@ Expected last line of `./ramp_sss`: `ALL TESTS PASSED`. Secrets and helper vecto
 ## Notes
 
 * This is a research prototype. It uses `rand()` and a small fixed prime field and is **not** hardened (no constant-time arithmetic, no secure randomness). Do not use it to protect real secrets.
-* Scheme IV has information rate k/(n-1) with k <= C(t,2); this exceeds 1 only when C(t,2) > n-1 (see Remark in the paper).
+* Scheme IV has information rate k/(n-1) with k <= C(t,2); this exceeds 1 only when C(t,2) > n-1.
 
 
 
